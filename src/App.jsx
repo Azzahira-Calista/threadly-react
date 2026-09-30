@@ -1,13 +1,12 @@
-// 🧩 SESI 2 — HOOKS
-// Nanti kita akan pakai useEffect di sini. Untuk sekarang, useState aja dulu.
-// 👉 TODO (Sesi 2 - useEffect): tambahkan "useEffect" pada import di bawah ini.
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
 import { users } from "./data/user";
 import { posts as initialPosts } from "./data/posts";
+// import HomePageSol from "../_solution/HomePage.solution";
+import FetchDummyJSON from "./pages/FetchDummyJson";
 
 function App() {
   const [page, setPage] = useState("login"); // "login" | "home" | "profile"
@@ -15,24 +14,23 @@ function App() {
   const [posts, setPosts] = useState(initialPosts);
   const [reactions, setReactions] = useState({});
 
-  // 👉 TODO (Sesi 2 - useEffect): Buat judul tab browser menampilkan jumlah post.
-  //    Target hasil: judul tab jadi  "Threadly (4)"  dan berubah tiap ada post baru.
-  //
-  //    Isi kerangka di bawah ini:
-  //
-  //    useEffect(() => {
-  //      document.title = /* ??? pakai posts.length */;
-  //    }, [ /* ??? efek harus jalan lagi kalau APA yang berubah? */ ]);
-  //
-  //    (jangan lupa import useEffect di baris paling atas file ini)
+  // useEffect:
+  // Mengubah judul tab browser sesuai jumlah post.
+  // Misalnya jumlah post = 4 → "Threadly (4)"
+  useEffect(() => {
+    document.title = `Threadly (${posts.length})`;
+  }, [posts]);
 
   function handleLogin(username, password) {
     const found = users.find(
       (u) => u.username === username && u.password === password
     );
+
     if (!found) return "Username atau password salah";
+
     setCurrentUser(found);
     setPage("home");
+
     return null;
   }
 
@@ -40,7 +38,7 @@ function App() {
     setCurrentUser(null);
     setPage("login");
   }
-  
+
   function handleLike(postId) {
     const current = reactions[postId];
 
@@ -78,7 +76,7 @@ function App() {
       [postId]: current === "like" ? null : "like",
     }));
   }
-  
+
   function handleDislike(postId) {
     const current = reactions[postId];
 
@@ -116,6 +114,7 @@ function App() {
       [postId]: current === "dislike" ? null : "dislike",
     }));
   }
+
   function handleNewPost(content) {
     const newPost = {
       id: Date.now(),
@@ -124,6 +123,7 @@ function App() {
       likes: 0,
       dislikes: 0,
     };
+
     setPosts((prev) => [newPost, ...prev]);
   }
 
@@ -133,7 +133,11 @@ function App() {
 
   return (
     <>
-      <Navbar page={page} onNavigate={setPage} onLogout={handleLogout} />
+      <Navbar
+        page={page}
+        onNavigate={setPage}
+        onLogout={handleLogout}
+      />
 
       {page === "home" && (
         <HomePage
@@ -155,6 +159,11 @@ function App() {
           onLike={handleLike}
           onDislike={handleDislike}
         />
+      )}
+
+      {page === "fetch" && (
+        // <HomePageSol/> no no diaktifin yah, coba dlu sndiri
+        <FetchDummyJSON />
       )}
     </>
   );

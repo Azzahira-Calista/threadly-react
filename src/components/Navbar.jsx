@@ -12,6 +12,12 @@ function Navbar({ page, onNavigate, onLogout }) {
                 Home
             </button>
             <button
+                className={page === "fetch" ? "active" : ""}
+                onClick={() => onNavigate("fetch")}
+            >
+                Fetch
+            </button>
+            <button
                 className={page === "profile" ? "active" : ""}
                 onClick={() => onNavigate("profile")}
             >

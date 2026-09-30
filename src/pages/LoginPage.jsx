@@ -1,52 +1,62 @@
-// 👉 TODO (Sesi 2): tambahkan "useEffect" dan "useRef" pada import di bawah.
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 function LoginPage({ onLogin }) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-    // 👉 TODO (Sesi 2 - useRef): pointer ke input username
+  // useRef:
+  // Membuat "pointer" ke input username
+  const usernameRef = useRef(null);
 
+  // useEffect:
+  // Begitu halaman login muncul, langsung fokus ke input username
+  useEffect(() => {
+    usernameRef.current.focus();
+  }, []);
 
-    // 👉 TODO (Sesi 2 - useEffect): begitu halaman login muncul, fokus ke username.
+  function handleSubmit(e) {
+    e.preventDefault();
 
+    const err = onLogin(username, password);
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        const err = onLogin(username, password);
-        if (err) setError(err);
-    }
+    if (err) setError(err);
+  }
 
-    return (
-        <main className="login-page">
-        <div className="login-card">
-            <h1 className="logo">threadly</h1>
-            <p>Share your thoughts.</p>
+  return (
+    <main className="login-page">
+      <div className="login-card">
+        <h1 className="logo">threadly</h1>
 
-            <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            {error && <p className="login-error">{error}</p>}
-            <button className="primary-button" type="submit">
-                Login
-            </button>
-            </form>
+        <p>Share your thoughts.</p>
 
-            <p className="login-hint">Try: calista / 123456</p>
-        </div>
-        </main>
-    );
+        <form onSubmit={handleSubmit}>
+          <input
+            ref={usernameRef}
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          {error && <p className="login-error">{error}</p>}
+
+          <button className="primary-button" type="submit">
+            Login
+          </button>
+        </form>
+
+        <p className="login-hint">Try: calista / 123456</p>
+      </div>
+    </main>
+  );
 }
 
 export default LoginPage;

@@ -1,6 +1,6 @@
 import PostCard from "../components/PostCard";
 
-function ProfilePage({ posts, currentUser, onLike, onDislike }) {
+function ProfilePage({ posts, currentUser, reactions, onLike, onDislike }) {
     const userPosts = posts.filter((p) => p.userId === currentUser.id);
 
     return (
@@ -22,6 +22,7 @@ function ProfilePage({ posts, currentUser, onLike, onDislike }) {
                 key={post.id}
                 post={post}
                 user={currentUser}
+                reactions={reactions}
                 onLike={onLike}
                 onDislike={onDislike}
             />

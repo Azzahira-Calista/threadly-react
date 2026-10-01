@@ -1,7 +1,7 @@
 // ✅ KUNCI JAWABAN (SOLUTION) — LoginPage.jsx
-// Beda dengan versi awal: ditambah useRef + useEffect untuk auto-focus input username.
 
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom"; // 1. Import useNavigate
 
 function LoginPage({ onLogin }) {
   const [username, setUsername] = useState("");
@@ -10,6 +10,7 @@ function LoginPage({ onLogin }) {
 
   // 🎯 useRef: pointer ke input username
   const usernameRef = useRef(null);
+  const navigate = useNavigate(); // 2. Inisialisasi navigate
 
   // 🎯 useEffect: begitu halaman login muncul, langsung fokus ke input username
   useEffect(() => {
@@ -20,6 +21,7 @@ function LoginPage({ onLogin }) {
     e.preventDefault();
     const err = onLogin(username, password);
     if (err) setError(err);
+    else navigate("/home"); // 3. Navigasi ke halaman home setelah login berhasil
   }
 
   return (
@@ -55,3 +57,4 @@ function LoginPage({ onLogin }) {
 }
 
 export default LoginPage;
+

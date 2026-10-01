@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import DummyPostCard from "../src/components/DummyPostCard";
 
-function HomePageSol() {
+function FetchDummyJSON() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -44,4 +44,4 @@ function HomePageSol() {
     );
 }
 
-export default HomePageSol;
+export default FetchDummyJSON;
